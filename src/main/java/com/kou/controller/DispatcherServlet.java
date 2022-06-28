@@ -1,5 +1,7 @@
 package com.kou.controller;
 
+import com.kou.constant.RequestMethodConstant;
+import com.kou.controller.frontend.MainPageController;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.ServletException;
@@ -22,5 +24,8 @@ public class DispatcherServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.info("当前请求路径:{}", req.getServletPath());
         log.info("当前请求方法:{}", req.getMethod());
+        if ("/Main".equals(req.getServletPath()) && req.getMethod().equals(RequestMethodConstant.GET)) {
+            new MainPageController().getMainPageInfo(req, resp);
+        }
     }
 }
