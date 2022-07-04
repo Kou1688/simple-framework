@@ -7,6 +7,7 @@ import com.kou.entity.dto.Result;
 import com.kou.service.combine.HeadLineShopCategoryService;
 import com.kou.service.solo.HeadLineService;
 import com.kou.service.solo.ShopCategoryService;
+import org.simpleframework.core.annotation.Service;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * @author KouChaoJie
  * @since: 2022/6/22 15:11
  */
+@Service
 public class HeadLineShopCategoryServiceImpl implements HeadLineShopCategoryService {
     private HeadLineService headLineService;
 

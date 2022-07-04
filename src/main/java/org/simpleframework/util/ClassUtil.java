@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
@@ -65,6 +67,27 @@ public class ClassUtil {
     }
 
     /**
+     * 实例化class
+     *
+     * @param clazz      class
+     * @param <T>        class类型
+     * @param accessible 是否禁止java语言检查
+     * @return class实例化对象
+     */
+    public static <T> T newInstance(Class<?> clazz, boolean accessible) {
+        try {
+            Constructor<?> constructor = clazz.getDeclaredConstructor();
+            //是否禁止java语言访问检查
+            constructor.setAccessible(accessible);
+            //返回class对象实例
+            return (T) constructor.newInstance();
+        } catch (Exception e) {
+            log.error("new Instance error", e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * 递归获取目标package里面所有class文件(包括子包里的class)
      *
      * @param emptyClassSet 装载目标类集合
@@ -111,7 +134,7 @@ public class ClassUtil {
 
         //递归条件,fileSource是一个文件夹,获取当前文件夹下的文件和子文件夹并加载class文件
         //必须判断childFiles是否为空,foreach遇到file为空会抛出异常
-        if (childFiles != null) {
+        if (!ValidationUtil.isEmpty(childFiles)) {
             for (File childFile : childFiles) {
                 //递归调用
                 extractClassSet(emptyClassSet, childFile, packageName);

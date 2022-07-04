@@ -3,6 +3,7 @@ package com.kou.controller.superadmin;
 import com.kou.entity.bo.HeadLine;
 import com.kou.entity.dto.Result;
 import com.kou.service.solo.HeadLineService;
+import org.simpleframework.core.annotation.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +15,7 @@ import java.util.List;
  * @author KouChaoJie
  * @since: 2022/6/22 16:45
  */
+@Controller
 public class HeadLineOperationController {
 
     private HeadLineService headLineService;

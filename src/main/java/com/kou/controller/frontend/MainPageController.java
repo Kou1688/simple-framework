@@ -3,6 +3,7 @@ package com.kou.controller.frontend;
 import com.kou.entity.dto.MainPageInfoDTO;
 import com.kou.entity.dto.Result;
 import com.kou.service.combine.HeadLineShopCategoryService;
+import org.simpleframework.core.annotation.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author KouChaoJie
  * @since: 2022/6/22 16:42
  */
+@Controller
 public class MainPageController {
     private HeadLineShopCategoryService headLineShopCategoryService;
 
