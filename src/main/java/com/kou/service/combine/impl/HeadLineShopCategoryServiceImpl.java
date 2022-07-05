@@ -8,6 +8,7 @@ import com.kou.service.combine.HeadLineShopCategoryService;
 import com.kou.service.solo.HeadLineService;
 import com.kou.service.solo.ShopCategoryService;
 import org.simpleframework.core.annotation.Service;
+import org.simpleframework.inject.annotation.Autowired;
 
 import java.util.List;
 
@@ -17,8 +18,10 @@ import java.util.List;
  */
 @Service
 public class HeadLineShopCategoryServiceImpl implements HeadLineShopCategoryService {
+    @Autowired
     private HeadLineService headLineService;
 
+    @Autowired
     private ShopCategoryService shopCategoryService;
 
     @Override
