@@ -11,10 +11,7 @@ import org.simpleframework.util.ClassUtil;
 import org.simpleframework.util.ValidationUtil;
 
 import java.lang.annotation.Annotation;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -114,5 +111,100 @@ public class BeanContainer {
             }
         }
         loaded = true;
+    }
+
+    /**
+     * 添加一个class对象及其Bean实例
+     *
+     * @param clazz class对象
+     * @param bean  bean实例
+     * @return bean实例, 没有返回null
+     */
+    public Object addBean(Class<?> clazz, Object bean) {
+        return beanMap.put(clazz, bean);
+    }
+
+    /**
+     * 删除一个bean
+     *
+     * @param clazz class对象
+     * @return bean实例, 没有返回null
+     */
+    public Object removeBean(Class<?> clazz) {
+        return beanMap.remove(clazz);
+    }
+
+    /**
+     * 根据Class对象获取Bean实例
+     *
+     * @param clazz class对象
+     * @return bean实例
+     */
+    public Object getBean(Class<?> clazz) {
+        return beanMap.get(clazz);
+    }
+
+    /**
+     * 获取所有class对象集合
+     *
+     * @return class对象集合
+     */
+    public Set<Class<?>> getClasses() {
+        return beanMap.keySet();
+    }
+
+    /**
+     * 获取所有bean实例集合
+     *
+     * @return 容器bean实例集合
+     */
+    public Set<Object> getBeans() {
+        return new HashSet<>(beanMap.values());
+    }
+
+    /**
+     * 通过注解获取被注解标注的class
+     *
+     * @param annotation 注解
+     * @return 被annotation标注的class对象集合
+     */
+    public Set<Class<?>> getClassesByAnnotation(Class<? extends Annotation> annotation) {
+        if (ValidationUtil.isEmpty(getClasses())) {
+            log.warn("nothing in beanMap");
+            return null;
+        }
+
+        Set<Class<?>> classSet = new HashSet<>();
+        //判断key是否被annotation标注,并添加进集合
+        for (Class<?> clazz : getClasses()) {
+            if (clazz.isAnnotationPresent(annotation)) {
+                classSet.add(clazz);
+            }
+        }
+
+        return classSet.size() > 0 ? classSet : null;
+    }
+
+    /**
+     * 通过父类获取对应的子类class集合
+     *
+     * @param superClazz 父类
+     * @return Class集合
+     */
+    public Set<Class<?>> getClassesBySuper(Class<?> superClazz) {
+        if (ValidationUtil.isEmpty(getClasses())) {
+            log.warn("nothing in beanMap");
+            return null;
+        }
+
+        Set<Class<?>> classSet = new HashSet<>();
+        //判断clazz是否是传入接口或者类的子类,并添加进集合
+        for (Class<?> clazz : getClasses()) {
+            if (superClazz.isAssignableFrom(clazz) && !clazz.equals(superClazz)) {
+                classSet.add(clazz);
+            }
+        }
+
+        return classSet.size() > 0 ? classSet : null;
     }
 }
